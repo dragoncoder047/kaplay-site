@@ -16,9 +16,10 @@ const blogCollection = defineCollection({
 
 const guideCollection = defineCollection({
     loader: glob({
-        pattern: "**/*.md",
+        pattern: "**/*.{md,mdx}",
         base: "./guides/",
     }),
+    type: "content_layer",
     schema: ({ image }) =>
         z.object({
             url: z.optional(z.string()),
@@ -49,9 +50,18 @@ const miscCollection = defineCollection({
     }),
 });
 
+const repoCollection = defineCollection({
+    // only on kaplay/ folder not on kaplay/node_modules/ or any other folder
+    loader: glob({
+        pattern: "kaplay/**.md",
+        base: "./",
+    }),
+});
+
 export const collections = {
     blog: blogCollection,
     guides: guideCollection,
     books: booksCollection,
     misc: miscCollection,
+    repo: repoCollection,
 };
